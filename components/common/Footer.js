@@ -17,7 +17,7 @@ const Footer = () => {
               </span>
               <br />
               <br />
-              <h3>+1 001 234 5678</h3>
+              <h3>+91 6353279323</h3>
               <br />
               <button className='button-primary'>Request for quote</button>
             </div>
