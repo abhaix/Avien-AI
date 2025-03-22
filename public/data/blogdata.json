@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "title": "First Blog",
+    "cover": "/images/b1.webp",
+    "category": "Tech",
+    "date": "2025-03-22",
+    "description1": "test",
+    "description2": "test2",
+    "mainDescription1": "test3",
+    "mainDescription2": "test4"
+  },
+  {
+    "id": "1742662768015",
+    "title": "Second Blog",
+    "cover": "/images/b1.webp",
+    "category": "test_last",
+    "date": "2025-03-22",
+    "description1": "test1",
+    "description2": "test1",
+    "mainDescription1": "testing1",
+    "mainDescription2": "testing2"
+  }
+]
