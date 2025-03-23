@@ -50,7 +50,7 @@ const Agency = () => {
                   <h3>Years of experience</h3>
                 </motion.div>
                 <motion.div className="box" whileHover={{ scale: 1.1 }}>
-                  <h1 className="indigo">20+</h1>
+                  <h1 className="indigo">10+</h1>
                   <h3>Successful cases</h3>
                 </motion.div>
                 <motion.div className="box" whileHover={{ scale: 1.1 }}>

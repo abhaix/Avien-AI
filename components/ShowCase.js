@@ -54,7 +54,7 @@ const ShowCase = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <Link href="/cases">
+          <Link href="/showcase">
             VIEW ALL CASES <HiOutlineArrowRight className="link-icon" />
           </Link>
         </motion.div>
