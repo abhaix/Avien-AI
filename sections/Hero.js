@@ -7,6 +7,7 @@ import Testimonial from "@/components/Testimonial";
 import { Title, TitleLogo, TitleSm } from "@/components/common/Title";
 import { BlogCard, Brand } from "@/components/router";
 import React from "react";
+import { motion } from "framer-motion"; // ✅ Import Framer Motion
 
 const Hero = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,9 +17,8 @@ const Hero = () => {
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          // Sort blogs by date (latest first) & take only the 2 most recent
           const sortedBlogs = data.sort((a, b) => new Date(b.date) - new Date(a.date));
-          setBlogs(sortedBlogs.slice(0, 2)); // Only keep the latest 2 blogs
+          setBlogs(sortedBlogs.slice(0, 2));
         }
       })
       .catch((error) => console.error("Error fetching blogs:", error));
@@ -26,53 +26,140 @@ const Hero = () => {
 
   return (
     <>
+      {/* ✅ Hero Section with animation */}
       <section className="hero">
-        <div className="container">
+        <motion.div 
+          className="container"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
           <TitleLogo title="Avien" caption=" AI" className="logobg" />
-          <h1 className="hero-title">BUILDING INTELLIGENT DIGITAL SOLUTIONS</h1>
+          <motion.h1 
+            className="hero-title"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            BUILDING INTELLIGENT DIGITAL SOLUTIONS
+          </motion.h1>
 
-          <div className="sub-heading">
+          <motion.div 
+            className="sub-heading"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             <TitleSm title="BRANDING" /> <span>.</span>
             <TitleSm title="WEBSITES" /> <span>.</span>
             <TitleSm title="DIGITAL MARKETING" />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
+      {/* ✅ Hero-Section with animation */}
       <section className="hero-sec">
         <div className="container">
-          <div className="heading-title">
+          <motion.div 
+            className="heading-title"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
             <Title title="The last digital agency you’ll ever need" />
             <p>
-            Let it hang out with a great carrier, with the pleading ligament, with the pain of trouble. 
-            Let us live by a ligament, so that the will may please the outflows at the id leo. Nothing about the present roll. 
-            Nothing easy. The time of the fur-bearing cloak with the great carrier of the scaly cloak.
+              Let it hang out with a great carrier, with the pleading ligament, with the pain of trouble. 
+              Let us live by a ligament, so that the will may please the outflows at the id leo. Nothing about the present roll. 
+              Nothing easy. The time of the fur-bearing cloak with the great carrier of the scaly cloak.
             </p>
-          </div>
-          <div className="hero-content grid-4">
+          </motion.div>
+
+          <motion.div 
+            className="hero-content grid-4"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             {home.map((item, i) => (
-              <div className="box" key={i}>
+              <motion.div 
+                className="box" 
+                key={i}
+                whileHover={{ scale: 1.1 }} // ✅ Hover effect
+              >
                 <span className="green">{item.icon}</span> <br />
                 <br />
                 <h3>{item.title}</h3>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <Expertise />
-      <Banner />
-      <Testimonial />
-      <ShowCase />
-      
+      {/* ✅ Our Expertise Section */}
+      <motion.section 
+        className="expertise-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        viewport={{ once: true }}
+      >
+        <Expertise />
+      </motion.section>
 
-      <div className="text-center">
+      {/* ✅ Banner Section */}
+      <motion.section 
+        className="banner-section"
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
+        <Banner />
+      </motion.section>
+
+      {/* ✅ WHAT CLIENTS SAY ABOUT OUR WORK (Testimonial) */}
+      <motion.section 
+        className="testimonial-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
+        <Testimonial />
+      </motion.section>
+
+      {/* ✅ Selected Cases (ShowCase) */}
+      <motion.section 
+        className="showcase-section"
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
+        <ShowCase />
+      </motion.section>
+
+      {/* ✅ Blog Section with animations */}
+      <motion.div 
+        className="text-center"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
         <Title title="Latest news & articles" />
-      </div>
+      </motion.div>
 
-      {/* ✅ Display only 2 latest blogs */}
-      <BlogCard blogs={blogs} />
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        viewport={{ once: true }}
+      >
+        <BlogCard blogs={blogs} />
+      </motion.div>
     </>
   );
 };
