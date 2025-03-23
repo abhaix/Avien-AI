@@ -1,24 +1,13 @@
 [
   {
-    "id": 1,
-    "title": "First Blog",
-    "cover": "/images/b1.webp",
+    "id": "1742727139323",
+    "title": "Leveraging LangChain’s CTransformers: Efficient Local LLM Deployment",
+    "cover": "/images/llm.jpeg",
     "category": "Tech",
     "date": "2025-03-22",
-    "description1": "test",
-    "description2": "test2",
-    "mainDescription1": "test3",
-    "mainDescription2": "test4"
-  },
-  {
-    "id": "1742662768015",
-    "title": "Second Blog",
-    "cover": "/images/b1.webp",
-    "category": "test_last",
-    "date": "2025-03-22",
-    "description1": "test1",
-    "description2": "test1",
-    "mainDescription1": "testing1",
-    "mainDescription2": "testing2"
+    "description1": "Introduction",
+    "description2": "What is CTransformers?",
+    "mainDescription1": "In the era of generative AI, running large language models (LLMs) locally without compromising performance has become a holy grail. Enter LangChain’s CTransformers—a powerful integration that bridges the gap between cutting-edge AI and efficient, privacy-focused deployment. Whether you’re building a chatbot, document analyzer, or creative writing tool, CTransformers empowers developers to harness LLMs like LLaMA, GPT-2, or Falcon directly on consumer-grade hardware. Let’s explore how this tool works, why it matters, and how to get started.",
+    "mainDescription2": "CTransformers is a Python library that provides bindings for Transformer models optimized with the GGML framework. GGML (a tensor library for machine learning) enables models to run efficiently on CPUs and supports quantization (reducing model size while retaining performance). LangChain’s CTransformers module integrates this library, allowing developers to:\n\nLoad open-source LLMs (e.g., LLaMA-2, Alpaca, MPT) locally without relying on cloud APIs.\n\nOptimize inference speed and memory usage via 4-bit or 8-bit quantization.\n\nSeamlessly plug models into LangChain’s ecosystem of chains, agents, and memory modules."
   }
 ]
