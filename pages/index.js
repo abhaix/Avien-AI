@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>AvienAi Desgin</title>
+        <title>AvienAi</title>
       </Head>
       <Hero />
     </>
