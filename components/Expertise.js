@@ -1,7 +1,7 @@
 import React from "react"
 import { Title } from "./common/Title"
 import { expertise } from "@/assets/data/dummydata"
-import { Card } from "./common/Card"
+import { Card } from "./common/CaseCard"
 
 const Expertise = () => {
   return (

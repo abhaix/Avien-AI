@@ -1,5 +1,5 @@
 import { expertise } from "@/assets/data/dummydata"
-import { Card } from "@/components/common/Card"
+import { Card } from "@/components/common/CaseCard"
 import { Title, TitleSm } from "@/components/common/Title"
 import React from "react"
 

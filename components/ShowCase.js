@@ -1,7 +1,7 @@
 import React from "react"
 import { Title } from "./common/Title"
 import { showcase } from "@/assets/data/dummydata"
-import { Card } from "./common/Card"
+import { Card } from "./common/CaseCard"
 import Link from "next/link"
 import { HiOutlineArrowRight } from "react-icons/hi"
 
