@@ -10,6 +10,12 @@ const Banner = () => {
     e.preventDefault();
     if (loading) return;
 
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (!cleanPhone.match(/^\d{10,15}$/)) {
+      setMessage("❌ Please enter a valid phone number (10-15 digits)");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
@@ -17,11 +23,13 @@ const Banner = () => {
       const response = await fetch("/api/savePhoneNumber", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phone.replace(/\D/g, '') }),
+        body: JSON.stringify({ phone: cleanPhone }),
       });
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to save number');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save number');
+      }
 
       setMessage("✅ We've received your number! We'll contact you shortly.");
       setPhone("");
@@ -30,7 +38,7 @@ const Banner = () => {
         setMessage("");
       }, 3000);
     } catch (error) {
-      setMessage(`❌ Error: ${error.message}`);
+      setMessage(`❌ ${error.message || 'Failed to submit. Please try again.'}`);
     } finally {
       setLoading(false);
     }
@@ -53,7 +61,11 @@ const Banner = () => {
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
-            <span className="close" onClick={() => setShowPopup(false)}>&times;</span>
+            <span className="close" onClick={() => {
+              setShowPopup(false);
+              setMessage("");
+              setPhone("");
+            }}>&times;</span>
             <h3>Enter Your Phone Number</h3>
             <form onSubmit={handleSubmit}>
               <input
@@ -63,12 +75,21 @@ const Banner = () => {
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                 pattern="[0-9]{10,15}"
                 required
+                disabled={loading}
               />
-              <button className="button-primary" type="submit" disabled={loading}>
+              <button 
+                className="button-primary" 
+                type="submit" 
+                disabled={loading}
+              >
                 {loading ? "Sending..." : "Submit"}
               </button>
             </form>
-            {message && <p className={message.includes("✅") ? "success" : "error"}>{message}</p>}
+            {message && (
+              <p className={message.includes("✅") ? "success" : "error"}>
+                {message}
+              </p>
+            )}
           </div>
         </div>
       )}

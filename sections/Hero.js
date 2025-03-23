@@ -44,9 +44,9 @@ const Hero = () => {
           <div className="heading-title">
             <Title title="The last digital agency you’ll ever need" />
             <p>
-              Suspendisse ut magna porttitor, sollicitudin ligula at, molestie dolor.
-              Vivamus a ligula ut velit placerat egestas at id leo. Nulla ac volutpat nunc.
-              Nulla facilisi. Pellentesque tempus tellus ut magna porttitor scelerisque.
+            Let it hang out with a great carrier, with the pleading ligament, with the pain of trouble. 
+            Let us live by a ligament, so that the will may please the outflows at the id leo. Nothing about the present roll. 
+            Nothing easy. The time of the fur-bearing cloak with the great carrier of the scaly cloak.
             </p>
           </div>
           <div className="hero-content grid-4">

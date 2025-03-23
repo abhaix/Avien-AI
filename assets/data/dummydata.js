@@ -6,7 +6,7 @@ import { BiUser } from "react-icons/bi"
 export const home = [
   {
     icon: <AiOutlineCalendar size={25} />,
-    title: "10+ years of market experience",
+    title: "1+ years of market experience",
   },
   {
     icon: <TfiRulerPencil size={25} />,
@@ -14,7 +14,7 @@ export const home = [
   },
   {
     icon: <VscFileSubmodule size={25} />,
-    title: "100+ cuccessful cases in portfolio",
+    title: "10+ cuccessful cases in portfolio",
   },
   {
     icon: <BiUser size={25} />,

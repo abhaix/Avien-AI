@@ -10,7 +10,7 @@ const Expertise = () => {
         <div className='container'>
           <div className='heading-title'>
             <Title title='Our expertise' />
-            <p>Vivamus a ligula ut velit placerat egestas at id leo. Nulla ac volutpat nunc. Suspendisse ut magna porttitor, sollicitudin ligula at, molestie dolor.</p>
+            <p>Let us live by a ligament, so that the will may please the outflows at the id leo. Nothing about the present roll. Let it hang out with a great carrier, with the pleading ligament, with the pain of trouble.</p>
           </div>
           <div className='hero-content grid-4'>
             {expertise.map((item) => (

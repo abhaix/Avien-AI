@@ -1,87 +1,54 @@
-import { GoogleSpreadsheet } from "google-spreadsheet";
-import { JWT } from "google-auth-library";
+import { adminDb } from '../../lib/firebase-admin';
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
+  res.setHeader('Content-Type', 'application/json');
 
   try {
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
     const { phone } = req.body;
-    if (!phone || !/^\d{10,15}$/.test(phone)) {
-      return res.status(400).json({ error: "Valid phone number required (10-15 digits)" });
-    }
-
-    // Validate environment variables
-    const requiredEnvVars = [
-      'GOOGLE_SERVICE_ACCOUNT',
-      'GOOGLE_SHEET_ID'
-    ];
-
-    for (const envVar of requiredEnvVars) {
-      if (!process.env[envVar]) {
-        throw new Error(`Missing ${envVar} in environment`);
-      }
-    }
-
-    // Parse service account credentials
-    let serviceAccount;
-    try {
-      serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
-    } catch (parseError) {
-      throw new Error("Failed to parse service account JSON: " + parseError.message);
-    }
-
-    // Configure authentication
-    const auth = new JWT({
-      email: serviceAccount.client_email,
-      key: serviceAccount.private_key
-        .replace(/\\n/g, '\n')  // Handle environment variable escaping
-        .replace(/\\\\/g, '\\'), // Fix double escapes
-      scopes: [
-        'https://www.googleapis.com/auth/spreadsheets',
-      ],
-    });
-
-    // Connect to Google Sheet
-    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, auth);
     
-    try {
-      await doc.loadInfo();
-      console.log(`Connected to sheet: ${doc.title}`);
-    } catch (loadError) {
-      throw new Error(`Failed to load sheet: ${loadError.message}`);
+    // Validate input
+    if (!phone || typeof phone !== 'string') {
+      return res.status(400).json({ error: 'Phone number is required' });
     }
 
-    const sheet = doc.sheetsByIndex[0];
-    console.log(`Using sheet: ${sheet.title}`);
-
-    // Verify headers
-    await sheet.loadHeaderRow();
-    const headers = sheet.headerValues.map(h => h.toLowerCase());
-    if (!headers.includes('phone') || !headers.includes('timestamp')) {
-      throw new Error('Sheet is missing required headers (Phone and Timestamp)');
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    if (cleanPhone.length < 10 || cleanPhone.length > 15) {
+      return res.status(400).json({ 
+        error: 'Invalid phone number length (10-15 digits required)' 
+      });
     }
 
-    // Add new row
-    const timestamp = new Date().toISOString();
-    await sheet.addRow({
-      Phone: phone,
-      Timestamp: timestamp
+    // Save to Firestore
+    const docRef = await adminDb.collection('phoneNumbers').add({
+      number: cleanPhone,
+      timestamp: new Date().toISOString(),
+      status: 'pending'
     });
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({
+      success: true,
+      id: docRef.id,
+      number: cleanPhone
+    });
 
   } catch (error) {
-    console.error("Error Details:", {
-      errorMessage: error.message,
+    console.error('💥 API Error:', {
+      error: error.message,
       stack: error.stack,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      input: req.body
     });
-    return res.status(500).json({ 
-      error: "Internal Server Error",
-      message: error.message,
-      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: process.env.NODE_ENV === 'development' 
+        ? error.message 
+        : 'Please try again later'
     });
   }
 }
