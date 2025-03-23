@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { auth } from "../lib/firebase";
+import { auth, db } from "../lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { collection, getDocs, updateDoc, doc, deleteDoc } from "firebase/firestore";
 
 const Admin = () => {
   const router = useRouter();
   const [blogs, setBlogs] = useState([]);
+  const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     cover: "",
@@ -19,7 +21,6 @@ const Admin = () => {
   const [editingId, setEditingId] = useState(null);
   const [user, setUser] = useState(null);
 
-  // 🔹 Check if user is signed in, otherwise redirect to signin
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -32,7 +33,6 @@ const Admin = () => {
     return () => unsubscribe();
   }, []);
 
-  // 🔹 Fetch Blogs
   useEffect(() => {
     fetch("/api/blogs")
       .then((res) => res.json())
@@ -43,7 +43,22 @@ const Admin = () => {
       .catch((error) => console.error("Error fetching blogs:", error));
   }, []);
 
-  // 🔹 Handle Add & Update Blog
+  useEffect(() => {
+    async function fetchNumbers() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "phoneNumbers"));
+        const numbers = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPhoneNumbers(numbers);
+      } catch (error) {
+        console.error("Error fetching numbers:", error);
+      }
+    }
+    fetchNumbers();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const method = editingId ? "PUT" : "POST";
@@ -75,18 +90,13 @@ const Admin = () => {
     }
   };
 
-  // 🔹 Handle Delete Blog
   const deleteBlog = async (id) => {
-    console.log("Attempting to delete blog with ID:", id);
-
     try {
       const res = await fetch("/api/blogs", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: id.toString() }), // Ensure ID is sent as a string
+        body: JSON.stringify({ id: id.toString() }),
       });
-
-      console.log("Delete request sent, awaiting response...");
 
       if (!res.ok) {
         const errorResponse = await res.json().catch(() => null);
@@ -95,17 +105,38 @@ const Admin = () => {
         return;
       }
 
-      const result = await res.json();
-      console.log("Delete successful:", result);
-
       setBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== id));
     } catch (error) {
       console.error("Error deleting blog:", error);
     }
   };
 
+  const updateStatus = async (id, newStatus) => {
+    try {
+      const docRef = doc(db, "phoneNumbers", id);
+      await updateDoc(docRef, { status: newStatus });
+
+      setPhoneNumbers((prevNumbers) =>
+        prevNumbers.map((num) =>
+          num.id === id ? { ...num, status: newStatus } : num
+        )
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const deletePhoneNumber = async (id) => {
+    try {
+      await deleteDoc(doc(db, "phoneNumbers", id));
+      setPhoneNumbers((prevNumbers) => prevNumbers.filter((num) => num.id !== id));
+    } catch (error) {
+      console.error("Error deleting phone number:", error);
+    }
+  };
+
   if (!user) {
-    return <p>Loading...</p>; // Show loading while checking auth state
+    return <p>Loading...</p>;
   }
 
   return (
@@ -116,6 +147,7 @@ const Admin = () => {
         Sign Out
       </button>
 
+      {/* Blog Management */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -157,13 +189,13 @@ const Admin = () => {
           required
         />
         <textarea
-          placeholder="Main Description 1 (Full Content)"
+          placeholder="Main Description 1"
           value={formData.mainDescription1}
           onChange={(e) => setFormData({ ...formData, mainDescription1: e.target.value })}
           required
         />
         <textarea
-          placeholder="Main Description 2 (Full Content)"
+          placeholder="Main Description 2"
           value={formData.mainDescription2}
           onChange={(e) => setFormData({ ...formData, mainDescription2: e.target.value })}
           required
@@ -183,19 +215,10 @@ const Admin = () => {
               <p><strong>Main Content 2:</strong> {blog.mainDescription2}</p>
 
               <div className="btn-group">
-                <button
-                  className="edit-btn"
-                  onClick={() => {
-                    setFormData(blog);
-                    setEditingId(blog.id);
-                  }}
-                >
+                <button onClick={() => { setFormData(blog); setEditingId(blog.id); }}>
                   Edit
                 </button>
-                <button onClick={() => {
-                  console.log("Delete button clicked for ID:", blog.id);
-                  deleteBlog(blog.id);
-                }}>
+                <button onClick={() => deleteBlog(blog.id)} style={{ color: "red" }}>
                   Delete
                 </button>
               </div>
@@ -205,6 +228,33 @@ const Admin = () => {
       ) : (
         <p>No blogs available</p>
       )}
+
+      {/* Phone Number Management */}
+      <h3>Phone Numbers</h3>
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {phoneNumbers.map(({ id, number, status }) => (
+            <tr key={id}>
+              <td>{number}</td>
+              <td>{status}</td>
+              <td>
+                <button onClick={() => updateStatus(id, "approved")}>Approve</button>
+                <button onClick={() => updateStatus(id, "rejected")}>Reject</button>
+                <button onClick={() => deletePhoneNumber(id)} style={{ color: "red" }}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
