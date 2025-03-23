@@ -88,7 +88,7 @@ const Footer = () => {
               <span>© 2023 THE SEVEN. ALL RIGHTS RESERVED.</span>
             </div>
             <div className='connect'>
-              <span>GORKCODER COMPANY</span>
+              <span>AVIEN AI COMPANY</span>
               <span> &nbsp; | &nbsp; </span>
               <span>TERMS & CONDITIONS</span>
             </div>
