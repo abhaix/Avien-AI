@@ -275,55 +275,68 @@ footer {
 
 // Contact Section
 .contact {
-  .content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  .left {
+    padding-right: 60px;
+    
+    ul {
+      @include flex(center, space-between, none);
+      margin-top: $xll;
+    }
 
-    .left {
-      padding-right: 60px;
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        li {
-          margin: 10px;
-        }
+    .icon {
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba($white, 0.2);
+      border-radius: 10px 0 10px 0;
+      @include flex(center, center, none);
+    }
+
+    .box {
+      margin-bottom: $xll;
+
+      .icons {
+        color: $green;
       }
-      .icon {
-        width: 50px;
-        height: 50px;
-        border: 1px solid rgba($white, 0.2);
-        border-radius: 10px 0 10px 0;
-        @include flex(center, center, none);
+
+      h3 {
+        padding: $xl-2 0;
+      }
+
+      span {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .right {
+    border-radius: 50px 0 50px 0;
+    padding: $xll;
+    background-color: #171e20;
+
+    form {
+      margin-top: $xll;
+    }
+
+    .inputs {
+      margin-bottom: $xl-6;
+
+      span {
+        text-transform: uppercase;
+      }
+
+      textarea,
+      input {
+        width: 100%;
+        background-color: $white;
+        padding: 15px;
+        margin-top: $sm;
+        color: $dark;
       }
     }
 
-    .right {
-      border-radius: 50px 0 50px 0;
-      padding: $xll;
-      background-color: #171e20;
-      form {
-        margin-top: $xll;
-      }
-      .inputs {
-        margin-bottom: $xl-6;
-        span {
-          text-transform: uppercase;
-        }
-        textarea, input {
-          width: 100%;
-          background-color: $white;
-          padding: 15px;
-          margin-top: $sm;
-          color: $dark;
-        }
-      }
-      button {
-        width: 100%;
-        padding: 18px;
-      }
+    button {
+      width: 100%;
+      padding: 18px;
     }
   }
 }
