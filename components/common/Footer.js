@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { TitleLogo } from "./Title"
 import { BsFacebook } from "react-icons/bs"
-import { AiFillBehanceCircle, AiFillInstagram, AiFillLinkedin } from "react-icons/ai"
+import { AiFillBehanceCircle, AiFillInstagram, AiFillLinkedin ,AiFillGithub} from "react-icons/ai"
 
 const Footer = () => {
   return (
@@ -19,7 +19,7 @@ const Footer = () => {
               <br />
               <h3>+91 9106952894</h3>
               <br />
-              <button className='button-primary'>Request for quote</button>
+              
             </div>
             <ul>
               <h3>COMPANY</h3>
@@ -45,16 +45,16 @@ const Footer = () => {
             <ul>
               <h3>SERVICES</h3>
               <li>
-                <Link href='/'>Web Design & Development</Link>
+                <Link href='/services'>Web Design & Development</Link>
               </li>
               <li>
-                <Link href='/'>Branding & Creative Services</Link>
+                <Link href='/services'>Branding & Creative Services</Link>
               </li>
               <li>
-                <Link href='/'>Digital Marketing</Link>
+                <Link href='/services'>Digital Marketing</Link>
               </li>
               <li>
-                <Link href='/'>E-Commerce</Link>
+                <Link href='/services'>E-Commerce</Link>
               </li>
             </ul>
             <ul>
@@ -67,13 +67,13 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link href='/'>
-                    <AiFillBehanceCircle size={25} />
+                    <AiFillGithub size={25} />
                   </Link>
                 </li>
                 <li>
-                  <Link href='/'>
-                    <AiFillInstagram size={25} />
-                  </Link>
+                  <a href="https://www.instagram.com/avien_ai_official" target="_blank" rel="noopener noreferrer">
+                  <AiFillInstagram size={25} />
+                  </a>
                 </li>
                 <li>
                   <Link href='/'>

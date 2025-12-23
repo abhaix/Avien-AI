@@ -9,8 +9,12 @@ export const Card = ({ data, caption, show, path }) => {
           <img src={data.cover} alt={data.title} />
         </div>
         <div className="card-details">
-          {/* For Showcase, no links, just a title */}
-          {path ? (
+          {/* For Showcase, check for external link */}
+          {data.link ? (
+            <a href={data.link} target="_blank" rel="noreferrer" className="title-link">
+              <TitleSm title={data.title} />
+            </a>
+          ) : path ? (
             <a href="#" className="title-link">
               <TitleSm title={data.title} />
             </a>

@@ -33,7 +33,7 @@ const ShowCase = () => {
             },
           }}
         >
-          {showcase.map((item) => (
+          {showcase.slice(0, 3).map((item) => (
             <motion.div
               key={item.id}
               variants={{
