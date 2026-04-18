@@ -134,6 +134,20 @@ export const showcase = [
     catgeory: "WEBSITES",
     link: "https://company-portfolio-one-omega.vercel.app/",
   },
+  {
+    id: 9,
+    title: "The Cheese Atelier",
+    cover: "../images/thecheeseatelier.png",
+    catgeory: "WEBSITES",
+    link: "https://thecheeseatelier.com/",
+  },
+  {
+    id: 10,
+    title: "Casa Botanical",
+    cover: "../images/casabotanical.png",
+    catgeory: "WEBSITES",
+    link: "https://www.casabotanical.com/",
+  },
 ]
 export const brand = [
   {
