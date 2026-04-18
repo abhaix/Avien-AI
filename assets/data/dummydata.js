@@ -144,7 +144,7 @@ export const showcase = [
   {
     id: 10,
     title: "Casa Botanical",
-    cover: "../images/casabotanical.png",
+    cover: "../images/Casa_botanical.png",
     catgeory: "WEBSITES",
     link: "https://www.casabotanical.com/",
   },
