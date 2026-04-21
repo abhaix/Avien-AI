@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://avienai.com
+
+# Sitemaps
+Sitemap: https://avienai.com/sitemap.xml
